@@ -43,9 +43,6 @@ export default class SemVer implements SemanticVersion {
             throw new Error(ERR_ARG_NOT_VALID_SEMVER);
         }
         let result = REGEX_SEMVER.exec(semver);
-        if (!result) {
-            throw new Error(ERR_UNABLE_TO_PARSE);
-        }
         this.major = parseInt(result[1]);
         this.minor = parseInt(result[2]);
         this.patch = parseInt(result[3]);
@@ -67,11 +64,8 @@ export default class SemVer implements SemanticVersion {
             buildArray.pop();
         }
         this.build = buildArray.join('.');
-
     }
 }
-
-
 
 export interface SemanticVersion {
     meta?: string,
@@ -82,6 +76,18 @@ export interface SemanticVersion {
     major: number
 }
 
+export enum SemanticVersionBumbablePart {
+    Major,
+    Minor,
+    Patch,
+    BuildNumber
+}
+
+export interface SemanticVersionSetable {
+    meta?: string,
+    build?: string,
+    resetBuildNumber?: boolean
+}
+
 export const ERR_ARG_NOT_VALID_SEMVER = "Argument is not a valid SemVer";
-export const ERR_UNABLE_TO_PARSE = "Unable to parse argument as a SemVer";
 export const REGEX_SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
