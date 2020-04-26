@@ -3,9 +3,9 @@ export default class SemVer implements SemanticVersion {
     meta?: string;
     build?: string;
     buildNumber?: number;
-    p: number;
-    m: number;
-    M: number;
+    patch: number;
+    minor: number;
+    major: number;
 
     constructor(
         argA: number | string | null = null,
@@ -14,9 +14,9 @@ export default class SemVer implements SemanticVersion {
         argD: string | number | null = null,
         argE: string | number | null = null,
         argF: number | null = null) {
-        this.p = 0; this.m = 0; this.M = 0;
+        this.patch = 0; this.minor = 0; this.major = 0;
         if (typeof (argA) === 'number' || typeof (argB) === 'number' || typeof (argC) === 'number') {
-            this.M = argA as number; this.m = argB; this.p = argC;
+            this.major = argA as number; this.minor = argB; this.patch = argC;
         }
         if (typeof (argD) === 'string') {
             this.build = argD;
@@ -46,22 +46,28 @@ export default class SemVer implements SemanticVersion {
         if (!result) {
             throw new Error(ERR_UNABLE_TO_PARSE);
         }
-        this.M = parseInt(result[1]);
-        this.m = parseInt(result[2]);
-        this.p = parseInt(result[3]);
+        this.major = parseInt(result[1]);
+        this.minor = parseInt(result[2]);
+        this.patch = parseInt(result[3]);
         this.build = result[4];
         this.meta = result[5];
-        if (this.build) {
-            let buildArray = this.build.split('.');
-            if (buildArray.length > 0) {
-                let n = parseInt(buildArray[buildArray.length - 1]);
-                if (!isNaN(n)) {
-                    this.buildNumber = n;
-                }
-                buildArray.pop();
-                this.build = buildArray.join('.');
-            }
+        if (!this.build) {
+            return;
         }
+        let buildArray = this.build.split('.');
+        if (buildArray.length == 0) {
+            return;
+        }
+        let n = parseInt(buildArray[buildArray.length - 1]);
+        if (!isNaN(n)) {
+            this.buildNumber = n;
+        }
+        if (buildArray.length>1)
+        {
+            buildArray.pop();
+        }
+        this.build = buildArray.join('.');
+
     }
 }
 
@@ -71,9 +77,9 @@ export interface SemanticVersion {
     meta?: string,
     build?: string,
     buildNumber?: number,
-    p: number,
-    m: number,
-    M: number
+    patch: number,
+    minor: number,
+    major: number
 }
 
 export const ERR_ARG_NOT_VALID_SEMVER = "Argument is not a valid SemVer";
