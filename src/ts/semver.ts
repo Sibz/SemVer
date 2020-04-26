@@ -1,4 +1,3 @@
-
 export default class SemVer implements SemanticVersion {
     meta?: string;
     build?: string;

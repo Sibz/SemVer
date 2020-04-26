@@ -2,7 +2,6 @@ import test from 'ava';
 import SemVer, * as sv from '../index';
 import { ERR_ARG_NOT_VALID_SEMVER } from '../semver';
 
-
 test('Parameterless construction should create version with zeros (0.0.0)', t => {
     let result = new SemVer();
     t.true(result.major == 0 && result.minor == 0 && result.patch == 0);
