@@ -58,8 +58,7 @@ export default class SemVer implements SemanticVersion {
         if (!isNaN(n)) {
             this.buildNumber = n;
         }
-        if (buildArray.length>1)
-        {
+        if (buildArray.length > 1) {
             buildArray.pop();
         }
         this.build = buildArray.join('.');
@@ -67,14 +66,12 @@ export default class SemVer implements SemanticVersion {
 
     toString(): string {
         let result: string = `${this.major}.${this.minor}.${this.patch}`;
-        if (this.build && (!this.buildNumber || this.build != this.buildNumber.toString()))
-        {
+        if (this.build && (!this.buildNumber || this.build != this.buildNumber.toString())) {
             result += `-${this.build}`;
-            if (this.buildNumber){
+            if (this.buildNumber) {
                 result += `.${this.buildNumber}`;
             }
-        } else if (this.buildNumber)
-        {
+        } else if (this.buildNumber) {
             result += `-${this.buildNumber}`
         }
 
@@ -82,6 +79,24 @@ export default class SemVer implements SemanticVersion {
             result += `+${this.meta}`;
         }
         return result;
+    }
+
+    bump(part: SemanticVersionBumbablePart | null = null): void {
+        if (!part || part == SemanticVersionBumbablePart.Patch) {
+            this.patch++;
+            return;
+        }
+        switch (part) {
+            case SemanticVersionBumbablePart.Major:
+                this.major++;
+                this.minor = 0;
+                this.patch = 0;
+                break;
+            case SemanticVersionBumbablePart.Minor:
+                this.minor++;
+                this.patch = 0;
+                break;
+        }
     }
 }
 
@@ -95,6 +110,7 @@ export interface SemanticVersion {
 }
 
 export enum SemanticVersionBumbablePart {
+    None,
     Major,
     Minor,
     Patch,
