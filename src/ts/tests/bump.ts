@@ -29,3 +29,10 @@ test('With arg set Patch, should bump patch', t=> {
     actual.bump(SemanticVersionBumbablePart.Patch);
     t.deepEqual(actual, expected);
 });
+
+test('With arg set buildNumber, should bump buildNumber', t=> {
+    let actual = new SemVer(1, 2, 3, "build", "meta", 4);
+    let expected = new SemVer(1, 2, 3, "build", "meta", 5);
+    actual.bump(SemanticVersionBumbablePart.BuildNumber);
+    t.deepEqual(actual, expected);
+});

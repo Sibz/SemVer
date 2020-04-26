@@ -96,6 +96,10 @@ export default class SemVer implements SemanticVersion {
                 this.minor++;
                 this.patch = 0;
                 break;
+            case SemanticVersionBumbablePart.BuildNumber:
+                this.buildNumber++;
+                break;
+ 
         }
     }
 }
