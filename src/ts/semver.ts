@@ -81,11 +81,7 @@ export default class SemVer implements SemanticVersion {
         return result;
     }
 
-    bump(part: SemanticVersionBumbablePart | null = null): void {
-        if (!part || part == SemanticVersionBumbablePart.Patch) {
-            this.patch++;
-            return;
-        }
+    bump(part: SemanticVersionBumbablePart = SemanticVersionBumbablePart.Patch): void {       
         switch (part) {
             case SemanticVersionBumbablePart.Major:
                 this.major++;
@@ -95,6 +91,9 @@ export default class SemVer implements SemanticVersion {
             case SemanticVersionBumbablePart.Minor:
                 this.minor++;
                 this.patch = 0;
+                break;
+            case SemanticVersionBumbablePart.Patch:
+                this.patch++;
                 break;
             case SemanticVersionBumbablePart.BuildNumber:
                 this.buildNumber++;
