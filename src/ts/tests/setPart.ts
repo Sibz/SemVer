@@ -1,5 +1,6 @@
 import test from 'ava';
 import SemVer, * as sv from '../index';
+import { ResetOption } from '../semver';
 
 test('When build set, should set build', t=> {
     let actual = new SemVer(1,2,3,"alpha","meta",4);
@@ -15,16 +16,16 @@ test('When meta set, should set meta', t=> {
     t.deepEqual(actual,expected);
 });
 
-test('when resetBuildNumber set, should reset build number', t=>{
+test('when resetBuildNumber set to reset, should reset build number', t=>{
     let actual = new SemVer(1,2,3,"alpha","meta",4);
     let expected = new SemVer(1,2,3,"alpha","meta",0);
-    actual.setPart({resetBuildNumber:true});
+    actual.setPart({resetBuildNumber:ResetOption.Reset});
     t.deepEqual(actual,expected);
 });
 
-test("When removeBuildNumber set, should set build number to undefined", t=> {
+test("When resetBuildNumber set to remove, should set build number to undefined", t=> {
     let actual = new SemVer(1,2,3,"alpha","meta",4);
     let expected = new SemVer(1,2,3,"alpha","meta");
-    actual.setPart({removeBuildNumber:true});
+    actual.setPart({resetBuildNumber:ResetOption.Remove});
     t.deepEqual(actual,expected);
 });
