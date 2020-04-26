@@ -1,6 +1,5 @@
 import test from 'ava';
-import SemVer, * as sv from '../index';
-import { SemanticVersionBumbablePart } from '../semver';
+import { SemanticVersionBumbablePart, SemVer } from '../semver';
 
 test('When no arg, Should bump patch', t => {
     let actual = new SemVer(1, 2, 3, "build", "meta", 4);

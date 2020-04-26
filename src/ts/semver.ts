@@ -1,4 +1,4 @@
-export class SemVer implements SemanticVersion {
+export class SemVer implements ISemanticVersion {
     meta?: string;
     build?: string;
     buildNumber?: number;
@@ -119,7 +119,7 @@ export class SemVer implements SemanticVersion {
     }
 }
 
-export interface SemanticVersion {
+export interface ISemanticVersion {
     meta?: string,
     build?: string,
     buildNumber?: number,

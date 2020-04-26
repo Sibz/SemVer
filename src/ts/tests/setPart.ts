@@ -1,6 +1,5 @@
 import test from 'ava';
-import SemVer, * as sv from '../index';
-import { ResetOption } from '../semver';
+import { ResetOption, SemVer } from '../semver';
 
 test('When build set, should set build', t=> {
     let actual = new SemVer(1,2,3,"alpha","meta",4);

@@ -1,5 +1,5 @@
 import test from 'ava';
-import SemVer, * as sv from '../index';
+import { SemVer } from '../index';
 
 test('Should construct valid string 1', t=> {
     let semVerStr = '1.2.3-alpha.4+meta';
