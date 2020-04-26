@@ -64,6 +64,25 @@ export default class SemVer implements SemanticVersion {
         }
         this.build = buildArray.join('.');
     }
+
+    toString(): string {
+        let result: string = `${this.major}.${this.minor}.${this.patch}`;
+        if (this.build && (!this.buildNumber || this.build != this.buildNumber.toString()))
+        {
+            result += `-${this.build}`;
+            if (this.buildNumber){
+                result += `.${this.buildNumber}`;
+            }
+        } else if (this.buildNumber)
+        {
+            result += `-${this.buildNumber}`
+        }
+
+        if (this.meta) {
+            result += `+${this.meta}`;
+        }
+        return result;
+    }
 }
 
 export interface SemanticVersion {

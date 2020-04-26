@@ -1,6 +1,5 @@
 import test from 'ava';
 import SemVer, * as sv from '../index';
-import { ERR_ARG_NOT_VALID_SEMVER } from '../semver';
 
 test('Parameterless construction should create version with zeros (0.0.0)', t => {
     let result = new SemVer();
@@ -84,5 +83,5 @@ test('One string arg should import associated variables 8', t=> {
 
 test('Bad string arg should throw', t=> {
     let err = t.throws(()=>new SemVer("bad.version"));
-    t.is(err.message, ERR_ARG_NOT_VALID_SEMVER)
+    t.is(err.message, sv.ERR_ARG_NOT_VALID_SEMVER)
 });
