@@ -29,3 +29,25 @@ test("When resetBuildNumber set to remove, should set build number to undefined"
     actual.setPart({resetBuildNumber:ResetOption.Remove});
     t.deepEqual(actual,expected);
 });
+
+test('Should be able to combine all options', t=> {
+    let actual = new SemVer(1,2,3,"alpha","meta",4);
+    let expected = new SemVer(1,2,3,"beta","meta2");
+    actual.setPart({
+        build: "beta",
+        meta: "meta2",
+        resetBuildNumber:ResetOption.Remove
+    });
+    t.deepEqual(actual,expected);
+});
+
+test('Should be able to combine all options2', t=> {
+    let actual = new SemVer(1,2,3,"alpha","meta",4);
+    let expected = new SemVer(1,2,3,"beta","meta2",0);
+    actual.setPart({
+        build: "beta",
+        meta: "meta2",
+        resetBuildNumber:ResetOption.Reset
+    });
+    t.deepEqual(actual,expected);
+});
