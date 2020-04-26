@@ -24,5 +24,13 @@
     "url": "https://github.com/Sibz/SemVer/issues"
   },
   "homepage": "https://github.com/Sibz/SemVer#readme",
-  "description": ""
+  "description": "",
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+	]
+  }
 }
