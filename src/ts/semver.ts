@@ -99,7 +99,21 @@ export default class SemVer implements SemanticVersion {
             case SemanticVersionBumbablePart.BuildNumber:
                 this.buildNumber++;
                 break;
- 
+        }
+    }
+
+    setPart(options: SemanticVersionSetable) {
+        if (options.build) {
+            this.build = options.build;
+        }
+        if (options.meta) {
+            this.meta = options.meta;
+        }
+        if (options.resetBuildNumber) {
+            this.buildNumber = 0;
+        }
+        if (options.removeBuildNumber) {
+            delete(this.buildNumber)
         }
     }
 }
@@ -125,6 +139,7 @@ export interface SemanticVersionSetable {
     meta?: string,
     build?: string,
     resetBuildNumber?: boolean
+    removeBuildNumber?: boolean
 }
 
 export const ERR_ARG_NOT_VALID_SEMVER = "Argument is not a valid SemVer";
