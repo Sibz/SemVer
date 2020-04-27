@@ -1,21 +1,14 @@
-export class SemVer implements ISemanticVersion {
-    meta?: string;
-    build?: string;
-    buildNumber?: number;
-    patch: number;
-    minor: number;
-    major: number;
-
-    constructor(
-        argA: number | string | null = null,
-        argB: number | null = null,
-        argC: number | null = null,
-        argD: string | number | null = null,
-        argE: string | number | null = null,
-        argF: number | null = null) {
-        this.patch = 0; this.minor = 0; this.major = 0;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class SemVer {
+    constructor(argA = null, argB = null, argC = null, argD = null, argE = null, argF = null) {
+        this.patch = 0;
+        this.minor = 0;
+        this.major = 0;
         if (typeof (argA) === 'number' || typeof (argB) === 'number' || typeof (argC) === 'number') {
-            this.major = argA as number; this.minor = argB as number; this.patch = argC as number;
+            this.major = argA;
+            this.minor = argB;
+            this.patch = argC;
         }
         if (typeof (argD) === 'string') {
             this.build = argD;
@@ -36,15 +29,13 @@ export class SemVer implements ISemanticVersion {
             this.parseSemVer(argA);
         }
     }
-
-    private parseSemVer(semver: string) {
-        if (!REGEX_SEMVER.test(semver)) {
-            throw new Error(ERR_ARG_NOT_VALID_SEMVER);
-        }        
-        let result = REGEX_SEMVER.exec(semver);
-        if (!result)
-        {
-          return;   
+    parseSemVer(semver) {
+        if (!exports.REGEX_SEMVER.test(semver)) {
+            throw new Error(exports.ERR_ARG_NOT_VALID_SEMVER);
+        }
+        let result = exports.REGEX_SEMVER.exec(semver);
+        if (!result) {
+            return;
         }
         this.major = parseInt(result[1]);
         this.minor = parseInt(result[2]);
@@ -67,25 +58,23 @@ export class SemVer implements ISemanticVersion {
         }
         this.build = buildArray.join('.');
     }
-
-    toString(): string {
-        let result: string = `${this.major}.${this.minor}.${this.patch}`;
+    toString() {
+        let result = `${this.major}.${this.minor}.${this.patch}`;
         if (this.build && (!this.buildNumber || this.build != this.buildNumber.toString())) {
             result += `-${this.build}`;
             if (this.buildNumber) {
                 result += `.${this.buildNumber}`;
             }
-        } else if (this.buildNumber) {
-            result += `-${this.buildNumber}`
         }
-
+        else if (this.buildNumber) {
+            result += `-${this.buildNumber}`;
+        }
         if (this.meta) {
             result += `+${this.meta}`;
         }
         return result;
     }
-
-    bump(part: SemanticVersionBumbablePart = SemanticVersionBumbablePart.Patch): void {       
+    bump(part = SemanticVersionBumbablePart.Patch) {
         switch (part) {
             case SemanticVersionBumbablePart.Major:
                 this.major++;
@@ -100,17 +89,16 @@ export class SemVer implements ISemanticVersion {
                 this.patch++;
                 break;
             case SemanticVersionBumbablePart.BuildNumber:
-                if (this.buildNumber)
-                {
+                if (this.buildNumber) {
                     this.buildNumber++;
-                } else {
+                }
+                else {
                     this.buildNumber = 0;
                 }
                 break;
         }
     }
-
-    setPart(options: SemanticVersionSetable) {
+    setPart(options) {
         if (options.build) {
             this.build = options.build;
         }
@@ -121,40 +109,26 @@ export class SemVer implements ISemanticVersion {
             return;
         }
         if (options.resetBuildNumber == ResetOption.Remove) {
-            delete (this.buildNumber)
-        } else {
+            delete (this.buildNumber);
+        }
+        else {
             this.buildNumber = 0;
         }
     }
 }
-
-export interface ISemanticVersion {
-    meta?: string,
-    build?: string,
-    buildNumber?: number,
-    patch: number,
-    minor: number,
-    major: number
-}
-
-export enum SemanticVersionBumbablePart {
-    None,
-    Major,
-    Minor,
-    Patch,
-    BuildNumber
-}
-
-export interface SemanticVersionSetable {
-    meta?: string,
-    build?: string,
-    resetBuildNumber?: ResetOption
-}
-
-export enum ResetOption {
-    Reset = 1,
-    Remove = 2
-}
-
-export const ERR_ARG_NOT_VALID_SEMVER = "Argument is not a valid SemVer";
-export const REGEX_SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
+exports.SemVer = SemVer;
+var SemanticVersionBumbablePart;
+(function (SemanticVersionBumbablePart) {
+    SemanticVersionBumbablePart[SemanticVersionBumbablePart["None"] = 0] = "None";
+    SemanticVersionBumbablePart[SemanticVersionBumbablePart["Major"] = 1] = "Major";
+    SemanticVersionBumbablePart[SemanticVersionBumbablePart["Minor"] = 2] = "Minor";
+    SemanticVersionBumbablePart[SemanticVersionBumbablePart["Patch"] = 3] = "Patch";
+    SemanticVersionBumbablePart[SemanticVersionBumbablePart["BuildNumber"] = 4] = "BuildNumber";
+})(SemanticVersionBumbablePart = exports.SemanticVersionBumbablePart || (exports.SemanticVersionBumbablePart = {}));
+var ResetOption;
+(function (ResetOption) {
+    ResetOption[ResetOption["Reset"] = 1] = "Reset";
+    ResetOption[ResetOption["Remove"] = 2] = "Remove";
+})(ResetOption = exports.ResetOption || (exports.ResetOption = {}));
+exports.ERR_ARG_NOT_VALID_SEMVER = "Argument is not a valid SemVer";
+exports.REGEX_SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
