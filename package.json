@@ -11,7 +11,7 @@
     "typescript": "^3.8.3"
   },
   "name": "@sibz/semver",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "main": "./src/js/index.js",
   "dependencies": {},
   "repository": {
@@ -31,7 +31,7 @@
     ],
     "require": [
       "ts-node/register"
-	]
+    ]
   },
   "publishConfig": {"registry": "https://pm.entityzero.com", "access": "restricted"}
 }
